@@ -15,10 +15,13 @@
   html {
     font-family: var(--font-sans);
     font-feature-settings: "rlig" 1, "calt" 1;
+    scroll-behavior: smooth;
+    background: #000000;
   }
 
   body {
     @apply antialiased;
+    color-scheme: dark;
   }
 }
 
