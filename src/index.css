@@ -10,13 +10,21 @@
     --font-mona: 'Mona Sans', system-ui, sans-serif;
     --font-ibm-plex: 'IBM Plex Sans', system-ui, sans-serif;
     --font-manrope: 'Manrope', system-ui, sans-serif;
+
+    /* Minimal palette */
+    --bg: #0B0B0C;            /* deep charcoal */
+    --panel: #101114;         /* subtle panel */
+    --muted: #A1A1AA;         /* gray-400 */
+    --muted-2: #71717A;       /* gray-500 */
+    --accent: #8AB4F8;        /* soft, modern blue */
+    --accent-weak: #3B82F6;   /* stronger hover state */
   }
 
   html {
     font-family: var(--font-sans);
     font-feature-settings: "rlig" 1, "calt" 1;
     scroll-behavior: smooth;
-    background: #000000;
+    background: var(--bg);
   }
 
   body {
@@ -25,7 +33,7 @@
   }
 }
 
-/* Custom utility classes for shadcn/ui patterns */
+/* Minimal motion utility hooks */
 @layer utilities {
   .animate-in {
     animation-name: animateIn;

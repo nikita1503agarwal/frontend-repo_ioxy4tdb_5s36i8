@@ -37,8 +37,8 @@ const features = [
 
 export default function Features() {
   return (
-    <section id="features" className="relative py-28 bg-[#000000]">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(54,255,143,0.08),transparent_60%)]" />
+    <section id="features" className="relative py-28 bg-[var(--bg)]">
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.04),transparent_60%)]" />
       <div className="relative mx-auto max-w-7xl px-6">
         <motion.h2
           initial={{ opacity: 0, y: 16 }}
@@ -47,7 +47,7 @@ export default function Features() {
           transition={{ duration: 0.7 }}
           className="text-3xl md:text-5xl font-extrabold tracking-tight"
         >
-          Futuristic features. Real results.
+          Focused features. Real results.
         </motion.h2>
         <motion.p
           initial={{ opacity: 0, y: 16 }}
@@ -56,7 +56,7 @@ export default function Features() {
           transition={{ delay: 0.1, duration: 0.7 }}
           className="mt-4 text-white/70 max-w-2xl"
         >
-          Designed for athletes, creators, and busy humans. Precision planning with a premium, neon-lit interface.
+          Designed for athletes, creators, and busy humans. Precision planning with a calm, minimal interface.
         </motion.p>
 
         <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -67,12 +67,12 @@ export default function Features() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.05, duration: 0.6 }}
-              className="relative group rounded-2xl border border-white/10 bg-[#0A0A0A]/60 p-6 overflow-hidden"
+              className="relative group rounded-2xl border border-white/10 bg-[var(--panel)] p-6 overflow-hidden"
             >
-              <div className="absolute -inset-0.5 bg-gradient-to-r from-[#36FF8F]/0 via-[#36FF8F]/0 to-[#3DF2FF]/0 opacity-0 group-hover:opacity-20 blur-xl transition-opacity" />
+              <div className="absolute -inset-0.5 opacity-0 group-hover:opacity-100 transition-opacity" style={{background: 'radial-gradient(120px circle at var(--x,50%) var(--y,50%), rgba(255,255,255,0.06), transparent 40%)'}} />
               <div className="relative flex items-start gap-4">
-                <div className="relative grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-black text-[#36FF8F]">
-                  <div className="absolute -inset-2 rounded-2xl bg-[#36FF8F]/20 blur-md opacity-60 group-hover:opacity-90 transition" />
+                <div className="relative grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-black text-[var(--accent)]">
+                  <div className="absolute -inset-2 rounded-2xl bg-[var(--accent)]/15 blur-md" />
                   <div className="relative">{f.icon}</div>
                 </div>
                 <div>

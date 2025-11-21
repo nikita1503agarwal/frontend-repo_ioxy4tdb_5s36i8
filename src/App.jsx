@@ -10,7 +10,7 @@ import FAQ from './components/FAQ'
 
 function App() {
   return (
-    <div className="min-h-screen bg-[#000000] text-white">
+    <div className="min-h-screen text-white bg-[var(--bg)]">
       <Navbar />
       <main>
         <Hero />
@@ -21,11 +21,10 @@ function App() {
         <Testimonials />
         <FAQ />
       </main>
-      <footer className="relative bg-[#0A0A0A] border-t border-white/10">
+      <footer className="relative border-t border-white/10 bg-[var(--bg)]">
         <div className="mx-auto max-w-7xl px-6 py-10 flex flex-col md:flex-row items-center justify-between gap-4">
           <div className="text-white/60">© {new Date().getFullYear()} Meal.ai</div>
-          <div className="text-white/60 text-sm">Made with love and good food.
-          </div>
+          <div className="text-white/60 text-sm">Made with love and good food.</div>
         </div>
       </footer>
     </div>

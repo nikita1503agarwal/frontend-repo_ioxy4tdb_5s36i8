@@ -10,7 +10,7 @@ const faqs = [
 export default function FAQ() {
   const [open, setOpen] = React.useState(0)
   return (
-    <section id="faq" className="relative py-28 bg-[#000000]">
+    <section id="faq" className="relative py-28 bg-[var(--bg)]">
       <div className="relative mx-auto max-w-4xl px-6">
         <motion.h2
           initial={{ opacity: 0, y: 16 }}
@@ -21,12 +21,12 @@ export default function FAQ() {
         >
           FAQ
         </motion.h2>
-        <div className="mt-10 divide-y divide-white/10 rounded-2xl border border-white/10 bg-[#0A0A0A]/60">
+        <div className="mt-10 divide-y divide-white/10 rounded-2xl border border-white/10 bg-[var(--panel)]">
           {faqs.map((f, i) => (
             <div key={f.q} className="p-6">
               <button onClick={() => setOpen(open === i ? -1 : i)} className="flex w-full items-center justify-between text-left">
                 <span className="font-medium text-white/90">{f.q}</span>
-                <span className={`ml-4 h-6 w-6 grid place-items-center rounded-full text-black transition ${open===i?'bg-[#36FF8F]':'bg-white/10 text-white'}`}>{open===i?'−':'+'}</span>
+                <span className={`ml-4 h-6 w-6 grid place-items-center rounded-full text-black transition ${open===i?'bg-[var(--accent)]':'bg-white/10 text-white'}`}>{open===i?'−':'+'}</span>
               </button>
               <AnimatePresence initial={false}>
                 {open === i && (

@@ -11,7 +11,7 @@ const steps = [
 
 export default function Engine() {
   return (
-    <section id="engine" className="relative py-28 bg-[#000000]">
+    <section id="engine" className="relative py-28 bg-[var(--bg)]">
       <div className="relative mx-auto max-w-7xl px-6">
         <motion.h2
           initial={{ opacity: 0, y: 16 }}
@@ -32,10 +32,10 @@ export default function Engine() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.08, duration: 0.6 }}
-              className="relative rounded-2xl border border-white/10 bg-[#0A0A0A]/60 p-6"
+              className="relative rounded-2xl border border-white/10 bg-[var(--panel)] p-6"
             >
-              <div className="relative grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-black text-[#3DF2FF]">
-                <div className="absolute -inset-2 rounded-2xl bg-[#3DF2FF]/20 blur-md" />
+              <div className="relative grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-black text-[var(--accent)]">
+                <div className="absolute -inset-2 rounded-2xl bg-[var(--accent)]/15 blur-md" />
                 <div className="relative">{s.icon}</div>
               </div>
               <h3 className="mt-4 font-semibold">{s.title}</h3>
