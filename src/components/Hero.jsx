@@ -3,7 +3,6 @@ import { motion } from 'framer-motion'
 
 function ParticleBackground() {
   const canvasRef = useRef(null)
-  const mouseRef = useRef({ x: 0, y: 0, active: false })
   const animationRef = useRef(0)
 
   useEffect(() => {
@@ -20,23 +19,9 @@ function ParticleBackground() {
       init()
     }
 
-    const handleMouseMove = (e) => {
-      const rect = canvas.getBoundingClientRect()
-      mouseRef.current.x = e.clientX - rect.left
-      mouseRef.current.y = e.clientY - rect.top
-      mouseRef.current.active = true
-    }
-
-    const handleMouseLeave = () => {
-      mouseRef.current.active = false
-    }
-
     window.addEventListener('resize', handleResize)
-    canvas.addEventListener('mousemove', handleMouseMove)
-    canvas.addEventListener('mouseleave', handleMouseLeave)
 
-    const ACCENT = getComputedStyle(document.documentElement).getPropertyValue('--accent')?.trim() || '#8AB4F8'
-    const ACCENT_WEAK = getComputedStyle(document.documentElement).getPropertyValue('--accent-weak')?.trim() || '#3B82F6'
+    const ACCENT = getComputedStyle(document.documentElement).getPropertyValue('--accent')?.trim() || '#0A84FF'
 
     let particles = []
     const density = Math.min(140, Math.floor((w * h) / 18000))
@@ -52,19 +37,18 @@ function ParticleBackground() {
       reset() {
         this.x = rand(0, w)
         this.y = rand(0, h)
-        const speed = rand(0.2, 0.7)
+        const speed = rand(0.15, 0.55)
         const angle = rand(0, Math.PI * 2)
         this.vx = Math.cos(angle) * speed
         this.vy = Math.sin(angle) * speed
-        this.size = rand(0.6, 2.2)
-        this.alpha = rand(0.4, 0.9)
-        this.pulse = rand(0.002, 0.006)
+        this.size = rand(0.6, 2)
+        this.alpha = rand(0.35, 0.8)
+        this.pulse = rand(0.0015, 0.004)
         this.pulsePhase = rand(0, Math.PI * 2)
       }
       update() {
         this.x += this.vx
         this.y += this.vy
-        // gentle wrap
         if (this.x < -10) this.x = w + 10
         if (this.x > w + 10) this.x = -10
         if (this.y < -10) this.y = h + 10
@@ -72,10 +56,10 @@ function ParticleBackground() {
         this.pulsePhase += this.pulse
       }
       draw(ctx) {
-        const s = this.size * (1 + Math.sin(this.pulsePhase) * 0.25)
+        const s = this.size * (1 + Math.sin(this.pulsePhase) * 0.2)
         ctx.beginPath()
         ctx.arc(this.x, this.y, s, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(255,255,255,${this.alpha * 0.9})`
+        ctx.fillStyle = `rgba(255,255,255,${this.alpha})`
         ctx.fill()
       }
     }
@@ -86,7 +70,8 @@ function ParticleBackground() {
     }
 
     function drawConnections() {
-      const maxDist = Math.min(160, Math.max(90, Math.min(w, h) * 0.18))
+      const maxDist = Math.min(150, Math.max(90, Math.min(w, h) * 0.16))
+      ctx.lineWidth = 1
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const a = particles[i]
@@ -95,61 +80,31 @@ function ParticleBackground() {
           const dy = a.y - b.y
           const d2 = dx * dx + dy * dy
           if (d2 < maxDist * maxDist) {
-            const opacity = 0.18 * (1 - Math.sqrt(d2) / maxDist)
-            ctx.strokeStyle = `rgba(138,180,248,${opacity})`
-            ctx.lineWidth = 1
+            const opacity = 0.16 * (1 - Math.sqrt(d2) / maxDist)
+            const prevAlpha = ctx.globalAlpha
+            ctx.globalAlpha = opacity
+            ctx.strokeStyle = ACCENT
             ctx.beginPath()
             ctx.moveTo(a.x, a.y)
             ctx.lineTo(b.x, b.y)
             ctx.stroke()
+            ctx.globalAlpha = prevAlpha
           }
         }
       }
     }
 
-    function drawMouseField() {
-      if (!mouseRef.current.active) return
-      const { x, y } = mouseRef.current
-      const radius = Math.min(220, Math.max(120, Math.min(w, h) * 0.25))
-
-      // soft radial highlight
-      const grad = ctx.createRadialGradient(x, y, 0, x, y, radius)
-      grad.addColorStop(0, ACCENT + '22')
-      grad.addColorStop(1, 'transparent')
-      ctx.fillStyle = grad
-      ctx.beginPath()
-      ctx.arc(x, y, radius, 0, Math.PI * 2)
-      ctx.fill()
-
-      // attract particles slightly toward cursor
-      for (const p of particles) {
-        const dx = x - p.x
-        const dy = y - p.y
-        const dist = Math.hypot(dx, dy)
-        if (dist < radius) {
-          const force = (1 - dist / radius) * 0.6
-          p.vx += (dx / dist || 0) * force * 0.02
-          p.vy += (dy / dist || 0) * force * 0.02
-        }
-      }
-
-      // draw orbiting "process" ring
-      ctx.beginPath()
-      ctx.strokeStyle = ACCENT_WEAK + '66'
-      ctx.lineWidth = 1.5
-      ctx.arc(x, y, radius * 0.6, 0, Math.PI * 2)
-      ctx.stroke()
-    }
-
     function loop() {
       ctx.clearRect(0, 0, w, h)
 
-      // subtle background gradient tint
-      const bgGrad = ctx.createLinearGradient(0, 0, 0, h)
-      bgGrad.addColorStop(0, 'rgba(138,180,248,0.06)')
-      bgGrad.addColorStop(1, 'rgba(0,0,0,0)')
-      ctx.fillStyle = bgGrad
+      // subtle vertical accent tint
+      const grad = ctx.createLinearGradient(0, 0, 0, h)
+      // use a tiny opacity by drawing a thin filled rect repeatedly via globalAlpha
+      const prevAlpha = ctx.globalAlpha
+      ctx.globalAlpha = 0.06
+      ctx.fillStyle = ACCENT
       ctx.fillRect(0, 0, w, h)
+      ctx.globalAlpha = prevAlpha
 
       // update & draw particles
       for (const p of particles) {
@@ -157,11 +112,10 @@ function ParticleBackground() {
         p.draw(ctx)
       }
 
-      // connections and fields
+      // connections
       ctx.save()
       ctx.globalCompositeOperation = 'lighter'
       drawConnections()
-      drawMouseField()
       ctx.restore()
 
       animationRef.current = requestAnimationFrame(loop)
@@ -173,8 +127,6 @@ function ParticleBackground() {
     return () => {
       cancelAnimationFrame(animationRef.current)
       window.removeEventListener('resize', handleResize)
-      canvas.removeEventListener('mousemove', handleMouseMove)
-      canvas.removeEventListener('mouseleave', handleMouseLeave)
     }
   }, [])
 
@@ -184,7 +136,7 @@ function ParticleBackground() {
 export default function Hero() {
   return (
     <section className="relative min-h-[90vh] w-full overflow-hidden bg-[var(--bg)]" id="home">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(138,180,248,0.08),transparent_60%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(10,132,255,0.06),transparent_60%)]" />
 
       <div className="absolute inset-0">
         <ParticleBackground />

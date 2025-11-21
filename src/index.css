@@ -11,13 +11,13 @@
     --font-ibm-plex: 'IBM Plex Sans', system-ui, sans-serif;
     --font-manrope: 'Manrope', system-ui, sans-serif;
 
-    /* Minimal palette */
-    --bg: #0B0B0C;            /* deep charcoal */
-    --panel: #101114;         /* subtle panel */
-    --muted: #A1A1AA;         /* gray-400 */
-    --muted-2: #71717A;       /* gray-500 */
-    --accent: #8AB4F8;        /* soft, modern blue */
-    --accent-weak: #3B82F6;   /* stronger hover state */
+    /* Apple-inspired dark palette */
+    --bg: #000000;            /* Pure black background (OLED-style) */
+    --panel: #1C1C1E;         /* iOS/macOS dark panel */
+    --muted: #F2F2F7;         /* Primary text on dark (iOS label) */
+    --muted-2: #8E8E93;       /* Secondary gray */
+    --accent: #0A84FF;        /* iOS accent blue */
+    --accent-weak: #007AFF;   /* Classic iOS blue for hover/active */
   }
 
   html {
